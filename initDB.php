@@ -24,6 +24,14 @@ try{
 	$stmt = $db->prepare($query);
 	$r = $stmt->execute();
 	echo "<br>" . $r . "<br>";
+        $user = "DharmikSoni";
+        $pin = 2832;
+        //DB Insert query
+        //Bind values
+        $r = $stmt->execute(TRUE);        
+        $insert_query = "INSERT INTO `TestUsers`(`username`, `pin`) VALUES (':username',;pin)";
+        $stmt = $db->prepare($insert_query);
+        $r = $stmt->execute($insert_query);
 
 		
 }
