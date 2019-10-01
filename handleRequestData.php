@@ -25,13 +25,23 @@
                 $number1 = $_GET['number1'];
                 echo "<br>" . $number1 . " should be a number...";
                 echo "<br>but it might not be<br>";
+                if (is_numeric($number1)) {
+                        echo var_export($number1, true) . " is numeric", PHP_EOL;
+                } else {
+                        echo var_export($number1, true) . " is NOT numeric", PHP_EOL;
+                }
         }
         if(isset($_GET['number2'])){
                 $number2 = $_GET['number2'];
                 echo "<br>" . $number2 . " should be a number...";
                 echo "<br>but it might not be<br>";
-        }
+                if (is_numeric($number2)) {
+                        echo var_export($number2, true) . " is numeric", PHP_EOL;
+                } else {
+                        echo var_export($number2, true) . " is NOT numeric", PHP_EOL;
+                }
 
+        }
         echo" <br>The addition is: " .($number1+$number2) . "<br>" ;
         echo "<br> answer for #3: if you try pass two parameters with the same name but different values, It only shows the last value on the browser. <br>";
         echo "<br> answer for #4: I noticed that &# is not showing on my browser, All other special characters showing up <br>";        
