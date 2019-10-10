@@ -15,13 +15,14 @@ function checkPasswords(){
 		}
 		else{
 			echo "<br>Passwords didn't match!<br>";
-                        
+              
 		}
-	}
+        }
 }
+
 ?>
 <html>
-<head></head>
+<head>
 <script>
 function validate(){
 	var form = document.forms[0];
@@ -42,22 +43,65 @@ function validate(){
 		pv.style.display = "block";
 		pv.innerText = "Passwords don't match";
 		
-	
+	        form.confirm.className = "error";
          	succeeded = false;
-                form.confirm.className = "error";
+                
         }
+        var email = form.email.value;
+	var ev = document.getElementById("validation.email");
+	//this won't show if type="email" since browser handles
+	//better validation. Change to type="text" to test
+	if(email.indexOf('@') > -1){
+		ev.style.display = "none";
+	}
+	else{
+		ev.style.display = "block";
+		ev.innerText = "Please enter a valid email address";
+		succeeded = false;
+	}
+        var dv = form.dropdown;
+        if(dv.selectedIndex == 0){
+		alert("Please pick a value");
+		succeeded = false;
+	}
+	console.log(dv.options[dv.selectedIndex].value);
+                
+        
+
+        
+        
+        return succeeded;
+
 
 }
 </script>
+<style>
+input { border: 1px solid black; }
+.error {border: 1px solid red;}
+.noerror {border: 1px solid black;}
+</style>
+</head>
 <body><?php getName();?>
-<form method="POST" action="#">
+<div style="margin-left: 50%; margin-right:50%;">
+<form method="POST" action="#" onsubmit="return validate();">
 <input name="name" type="text" placeholder="Enter your name"/>
 <input name="password" type="password" placeholder="Enter a password"/>
 <input name="confirm" type="password" placeholder="Please confirm your password"/>
 <span style="display:none;" id="validation.password"></span>
+<input name="email" type="email" placeholder="name@example.com"/>
+<span id="validation.email" style="display:none;"></span>
+<span style="display:none;" id="validation.password"></span>
+<select name="dropdown" id="mySelectId">
+	<option value="0">Select One</option>
+	<option value="1">Men's Clothing</option>
+	<option value="2">Women's clothing</option>
+        <option value="3">Kid's clothing</option>
+        <option value="4">Sport's clothing</option>
+</select>
 
 
-<input type="submit" value="Try it"/>
+<input type="submit"onclick="ddlValidate();" value="Try it"/>
+
 </form>
 </body>
 </html>
