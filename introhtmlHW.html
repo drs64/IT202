@@ -1,0 +1,52 @@
+
+<html>
+<head>
+<style>
+figure{ border: 1px solid black; margin-left:auto; margin-right:auto; width: 60%;padding: 1%;stroke="red" stroke-width="4" fill="yellow"}
+
+aside {border: 1px solid blue; padding: 1%;stroke="red" stroke-width="4" fill="yellow"}
+</style>
+<script>
+	function queryParam(){
+		var params = new URLSearchParams(location.search);
+		if(params.has('page')){
+			var page = params.get('page');
+			var ele = document.getElementById(page);
+			if(ele){
+				let home = document.getElementById('home');
+				let about = document.getElementById('about');
+				home.style.display="none";
+				about.style.display = "none";
+				ele.style.display = "block";
+			}
+		}
+		else{
+			let home = document.getElementById('home');
+			home.style.display = "block";
+		}
+	}
+</script>
+</head>
+<body onload="queryParam();">
+	<header>
+		<nav> <a href="?page=home">Home</a>
+                      <a href="?page=about">About Us</a>
+		</nav>
+	</header>
+	<div id="home">
+                <figure>
+
+		        This is home
+               </figure>
+	</div>
+	<div id="about">
+                <aside>
+		<p> We are here to provide you one of the best clothing for every occasions and for everyone.</p>
+                <p> Our clothes are made from one of the finest febrics from around the world.</p>
+                <p> Our mission is to provide most stylish yet most affordable clothes</p>
+                <p> Our designers are one of the best in buisness who are always working to make our clothes "THE BEST".</p>
+                </aside>
+	</div>
+	<footer></footer>
+</body>
+</html>
