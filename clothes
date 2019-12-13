@@ -1,0 +1,137 @@
+?php
+
+session_start();
+include('config.php');
+$status="";
+if (isset($_POST['code']) && $_POST['code']!=""){
+$code = $_POST['code'];
+$result = mysqli_query($connectdata,"SELECT * FROM `products` WHERE `code`='$code'");
+$row = mysqli_fetch_assoc($result);
+$name = $row['name'];
+$code = $row['code'];
+$price = $row['price'];
+$image = $row['image'];
+
+$cartArray = array(
+        $code=>array(
+        'name'=>$name,
+        'code'=>$code,
+        'price'=>$price,
+        'quantity'=>1,
+        'image'=>$image)
+);
+
+if(empty($_SESSION["shopping_cart"])) {
+        $_SESSION["shopping_cart"] = $cartArray;
+        $status = "<div class='box'>Product is added to your cart!</div>";
+}else{
+      	$array_keys = array_keys($_SESSION["shopping_cart"]);
+        if(in_array($code,$array_keys)) {
+                $status = "<div class='box' style='color:red;'>
+                Product is already added to your cart!</div>";
+        } else {
+        $_SESSION["shopping_cart"] = array_merge($_SESSION["shopping_cart"],$cartArray);
+        $status = "<div class='box'>Product is added to your cart!</div>";
+        }
+
+	}
+}
+?>
+<html>
+<head>
+<style>
+body {
+  background-color: #ffcc99;
+  text-align: center;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+figure{ border: 1px solid black; margin-left:auto; margin-right:auto; width: 20%;padding: 1%;}
+</style>
+<link rel='stylesheet' href='style.css' type='text/css' media='all' />
+<a href ="https://web.njit.edu/~drs64/IT202/pageOne.php"><img src = "https://image.flaticon.com/icons/png/128/69/69912.png"style='position:absolute; top:0; left:0;'>
+</a>
+</head>
+<body>
+<div style="width:700px; margin:30 auto;">
+
+<style>
+
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+
+</style>
+<p><font size="15" face="Copperplate" color="green">VASTRA CLOTHING</font></p>
+<figure>
+<p><a href="https://web.njit.edu/~drs64/IT202/mensClothing.php">Men's topwear</p>
+</figure>
+<?php
+if(!empty($_SESSION["shopping_cart"])) {
+$cart_count = count(array_keys($_SESSION["shopping_cart"]));
+?>
+<div class="cart_div">
+<a href="cart.php"> Cart<span><?php echo $cart_count; ?></span></a>
+</div>
+<a href ="https://web.njit.edu/~drs64/IT202/pageOne.php"><img src = "https://image.flaticon.com/icons/png/128/69/69912.png"style='position:absolute; top:0; left:0;'>
+<?php
+}
+
+$result = mysqli_query($connectdata,"SELECT * FROM `products`");
+while($row = mysqli_fetch_assoc($result)){
+                echo "<div class='product_wrapper'>
+                          <form method='post' action=''>
+
+                          <input type='hidden' name='code' value=".$row['code']." />
+                          <div class='image'><img src='".$row['image']."' /></div>
+
+
+
+
+                          <div class='name'>".$row['name']."</div>
+                          <div class='price'>$".$row['price']."</div>
+                          <button type='submit' class='buy'>Buy Now</button>
+                          </form>
+                          </div>";
+        }
+mysqli_close($connectdata);
+?>
+
+<div style="clear:both;"></div>
+
+<div class="message_box" style="margin:10px 0px;">
+}
+
+$result = mysqli_query($connectdata,"SELECT * FROM `products`");
+while($row = mysqli_fetch_assoc($result)){
+                echo "<div class='product_wrapper'>
+                          <form method='post' action=''>
+
+                          <input type='hidden' name='code' value=".$row['code']." />
+                          <div class='image'><img src='".$row['image']."' /></div>
+
+
+
+
+                          <div class='name'>".$row['name']."</div>
+                          <div class='price'>$".$row['price']."</div>
+                          <button type='submit' class='buy'>Buy Now</button>
+                          </form>
+                          </div>";
+        }
+mysqli_close($connectdata);
+?>
+
+<div style="clear:both;"></div>
+
+<div class="message_box" style="margin:10px 0px;">
+<?php echo $status; ?>
+</div>
+
+
+</div>
+</body>
+</html>
+
+
